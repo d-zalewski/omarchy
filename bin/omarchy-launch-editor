@@ -31,21 +31,24 @@ else
   editor="nvim"
 fi
 
+# sublime-text-4 ships `subl` on PATH, not `sublime_text`.
+[[ $editor == sublime_text ]] && editor=subl
+
 omarchy-cmd-present "$editor" || editor="nvim"
 
 case "${editor##*/}" in
 nvim | vim | nano | micro | hx | helix | fresh)
   if [[ $mode == "windowed" ]]; then
-    exec omarchy-launch-tui "$editor" "$@"
+    exec omarchy-launch-tui "$editor" -- "$@"
   else
-    exec "$editor" "$@"
+    exec "$editor" -- "$@"
   fi
   ;;
 *)
   if [[ $mode == "sudo" ]]; then
-    exec nvim "$@"
+    exec nvim -- "$@"
   else
-    exec setsid uwsm-app -- "$editor" "$@"
+    exec setsid uwsm-app -- "$editor" -- "$@"
   fi
   ;;
 esac

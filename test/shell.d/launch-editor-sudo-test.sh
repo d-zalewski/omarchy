@@ -72,15 +72,15 @@ pass "--sudo blocks for every editor the chooser offers"
 # The windowed and inline paths are unchanged: a graphical editor still gets
 # detached when it is not sudo asking.
 windowed=$(launch_with code)
-[[ $windowed == "setsid uwsm-app -- code /etc/sudoers.tmp" ]] ||
+[[ $windowed == "setsid uwsm-app -- code -- /etc/sudoers.tmp" ]] ||
   fail "a graphical editor is still detached when launched windowed" "got: $windowed"
 
 windowed=$(launch_with nvim)
-[[ $windowed == "omarchy-launch-tui nvim /etc/sudoers.tmp" ]] ||
+[[ $windowed == "omarchy-launch-tui nvim -- /etc/sudoers.tmp" ]] ||
   fail "a terminal editor is still opened in a terminal when launched windowed" "got: $windowed"
 
 inline=$(launch_with nvim --inline)
-[[ $inline == "nvim /etc/sudoers.tmp" ]] ||
+[[ $inline == "nvim -- /etc/sudoers.tmp" ]] ||
   fail "--inline still runs a terminal editor in place" "got: $inline"
 
 pass "the windowed and inline paths are unchanged"
